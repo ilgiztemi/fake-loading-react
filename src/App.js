@@ -1,23 +1,32 @@
-import logo from './logo.svg';
+import { useState, useEffect } from 'react';
 import './App.css';
+import Loading from './components/Loading';
+import Navbar from "./components/navbar";
+import Menu from "./components/menu";
+import { choices } from "./components/data";
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
+  const menu = choices;
+  const [newMenu, setNewMenu] = useState(menu);
+
+  useEffect(() => {
+   setTimeout(() => {
+    setIsLoading(false)
+   }, 4000) 
+  })
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {
+        isLoading ? 
+        <Loading />
+        : (
+          <div className="App">
+        <Navbar menu={menu} newMenu={newMenu} setNewMenu={setNewMenu} />
+        <Menu newMenu={newMenu} setNewMenu={setNewMenu} />
+    </div>
+        )
+      }
     </div>
   );
 }
